@@ -1,0 +1,103 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+
+## General Purpose of the project
+
+This is the frontend for a CourseHub project, where a user can sign up their account, login, click on an arbitrary subscribe button to be able to access courses, and then add courses to their account. This is a demo and is supposed to be a small project.
+
+## 🔓 Public Routes
+
+### `POST /user/signup`
+- Public
+- Zod validation for:
+  - `first_name`: min 3 characters
+  - `password`: min 8 characters, contains `@`, `#`, letter, number, special char
+
+### `POST /user/signin`
+- Public
+- Issues JWT
+
+---
+
+## 🔐 Authenticated Routes
+
+### `POST /user/subscribe`
+- Requires login
+- Sets `user.subscribed = true` (no real payment check)
+
+---
+
+## 📚 Course Routes (Require Auth + Subscription)
+
+### `GET /courses`
+- List all courses (only if subscribed)
+
+### `GET /courses/user`
+- List courses enrolled by user (`user.courses[]`)
+
+### `POST /courses/add`
+- Add a course to user's list (if subscribed)
+
+---
+
+## 🧩 Models
+
+### 👤 `User`
+
+| Field        | Type         | Description                          |
+|--------------|--------------|--------------------------------------|
+| `id`         | ObjectId     | Primary key                          |
+| `first_name` | string       | Minimum 3 characters                 |
+| `last_name`  | string       | Optional                             |
+| `age`        | number       | Optional                             |
+| `email`      | string       | Unique                               |
+| `password`   | string       | Hashed, must follow Zod policy       |
+| `courses`    | ObjectId[]   | Course IDs                           |
+| `subscribed` | boolean      | Must be `true` to access courses     |
+
+### 📚 `Course`
+
+| Field         | Type       | Description       |
+|---------------|------------|-------------------|
+| `id`          | ObjectId   | Primary key       |
+| `name`        | string     | Course name       |
+| `description` | string     | Course details    |
+
+
+## Project Structure
+
+src/
+├── assets/
+│   └── images/                # Static assets (images, fonts)
+├── components/
+│   ├── atoms/                 # Smallest reusable components (Button, Input, Label)
+│   ├── molecules/             # Grouped atoms forming functional components
+│   ├── organisms/             # Complex UI structures combining molecules
+│   └── layouts/               # Application layouts (MainLayout, AuthLayout)
+├── lib/
+│   ├── constants/             # Global constants
+│   ├── helpers/               # Utility functions
+│   ├── context/               # State management using React Context
+│   ├── hooks/                 # Custom reusable hooks
+│   ├── types/                 # Shared TypeScript types and interfaces
+|   └── schemas/               # Zod Schemas
+├── pages/
+│   ├── Home.tsx               # Home page component
+│   ├── Profile.tsx            # User profile page component
+│   └── Settings.tsx           # Settings page component
+├── routes/
+│   └── index.tsx              # Centralized app routing
+├── services/
+│   ├── api.ts                 # API services (fetching data)
+│   ├── queries.ts             # React Query fetching
+│   └── mutations.ts           # React Query mutations
+├── styles/
+│   └── globals.css            # Global styles (Tailwind, CSS files)
+├── index.tsx                  # React root file
+├── .env                       # Environment variables
+└── package.json               # Project dependencies
+
