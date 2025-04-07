@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "firebase:login": "firebase login",
+    "firebase:init": "firebase init",
+    "firebase:deploy": "firebase deploy",
+    "firebase:emulators": "firebase emulators:start"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.2",
@@ -35,6 +39,7 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "firebase-tools": "^14.1.0",
     "globals": "^15.15.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
